@@ -12,11 +12,12 @@ export default function Home() {
           </div>
           <div>
             <div className={styles.hero}>
-              <h1>test</h1>
-              <p>Taste</p>
+              <h1>Cars</h1>
+              <p>Check our cars!</p>
             </div>
             <div className={styles.cta}>
-              <Link href="/gallery">Gallery</Link>
+                <Link href="/gallery">Gallery</Link>
+                <Link href="/lab11/meals">Explore Cars</Link>
             </div>
           </div>
         </header>
