@@ -47,7 +47,7 @@ export default function MainHeader() {
                         <NavLink href="/gallery">Gallery</NavLink>
                     </li>
                     <li>
-                        <NavLink href="/contact">Contact Us</NavLink>
+                        <NavLink href="/contact-us">Contact Us</NavLink>
                     </li>
 
                     <div className={styles.login}>

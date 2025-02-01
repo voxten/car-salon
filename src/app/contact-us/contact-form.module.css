@@ -1,0 +1,117 @@
+/* contact-form.module.css */
+
+.contactContainer {
+    max-width: 40rem;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+    animation: fade-in 0.5s ease-out;
+  }
+  
+  .contactHeading {
+    font-size: 2rem;
+    color: #ddd6cb;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .contactLabel {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #ddd6cb;
+  }
+  
+  .contactInput {
+    width: 100%;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: #ddd6cb;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .contactInput:focus {
+    outline: none;
+    border-color: #ddd6cb;
+    box-shadow: 0 0 0.5rem rgba(249, 168, 38, 0.3);
+  }
+  
+  /* Jeśli chcesz dodatkowo wyróżnić pole tekstowe */
+  .contactTextarea {
+    /* Dziedziczy style z .contactInput; ewentualne modyfikacje poniżej */
+    resize: vertical;
+  }
+  
+  .contactButton {
+    width: 100%;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ddd6cb;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .contactButton:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(29, 24, 24, 0.3);
+  }
+  
+  .statusMessage {
+    margin: 1rem 0;
+    text-align: center;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  .success {
+    color: #ddd6cb;
+    background-color: rgba(249, 168, 38, 0.2);
+  }
+  
+  .error {
+    color: #ff4c4c;
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+  
+  .returnLink {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #ddd6cb;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .returnLink:hover {
+    color: #ada79b;
+    text-decoration: underline;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
