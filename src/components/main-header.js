@@ -44,6 +44,9 @@ export default function MainHeader() {
                         <NavLink href="/rent-a-car">Browse Cars</NavLink>
                     </li>
                     <li>
+                        <NavLink href="/gallery">Gallery</NavLink>
+                    </li>
+                    <li>
                         <NavLink href="/contact">Contact Us</NavLink>
                     </li>
 

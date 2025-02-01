@@ -1,5 +1,5 @@
 import classes from './page.module.css';
-import loadingClass from './loading-out';
+import loadingClass from '@/app/loading.module.css';
 import CarsGrid from "@/components/grid/car-grid";
 import { getCars } from '@/app/lib/cars';
 import {Suspense} from "react";
@@ -21,7 +21,7 @@ export default async function CarsPage() {
                 </p>
             </header>
             <main className={classes.main}>
-                <Suspense fallback={<p className={loadingClass.loading}>Fetching cars...</p>}>
+                <Suspense fallback={<p className={loadingClass.loading}>Loading cars...</p>}>
                     <Cars />
                 </Suspense>
             </main>

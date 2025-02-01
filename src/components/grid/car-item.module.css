@@ -1,4 +1,4 @@
-.meal {
+.car {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -29,8 +29,8 @@
   font-style: italic;
 }
 
-.meal h2,
-.meal p {
+.car h2,
+.car p {
   margin: 0;
 }
 
@@ -39,7 +39,7 @@
   height: 15rem;
 }
 
-.meal img {
+.car img {
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
