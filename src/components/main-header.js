@@ -41,7 +41,7 @@ export default function MainHeader() {
             <nav className={styles.nav}>
                 <ul>
                     <li>
-                        <NavLink href="/contact">Browse Cars</NavLink>
+                        <NavLink href="/rent-a-car">Browse Cars</NavLink>
                     </li>
                     <li>
                         <NavLink href="/contact">Contact Us</NavLink>

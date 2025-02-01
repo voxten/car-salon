@@ -16,10 +16,10 @@ export default function CarItem({ name, slug, image, model, brand, price_per_day
                 </div>
             </header>
             <div className={classes.content}>
-                <p className={classes.summary}>Price per day: ${price_per_day}</p>
-                <p className={classes.summary}>Power: {power} HP</p>
-                <p className={classes.summary}>Acceleration: {acceleration} sec (0-100 km/h)</p>
-                <p className={classes.summary}>Max Speed: {max_speed} km/h</p>
+                <p className={classes.summary}><strong>Price per day:</strong> ${price_per_day}</p>
+                <p className={classes.summary}><strong>Power:</strong> {power} HP</p>
+                <p className={classes.summary}><strong>Acceleration:</strong> {acceleration} sec (0-100 km/h)</p>
+                <p className={classes.summary}><strong>Max Speed:</strong> {max_speed} km/h</p>
                 <div className={classes.actions}>
                     <Link href={`/rent-a-car/${slug}`}>View Details</Link>
                 </div>
