@@ -12,7 +12,7 @@ export default function Home() {
           </div>
           <div>
             <div className={styles.hero}>
-              <h1>Cars</h1>
+              <h1>Drive Your Dream, Rent with Ease</h1>
               <p>Check our cars!</p>
             </div>
             <div className={styles.cta}>
