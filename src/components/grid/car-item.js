@@ -5,7 +5,7 @@ import classes from './car-item.module.css';
 
 export default function CarItem({ name, slug, image, model, brand, price_per_day, power, acceleration, max_speed }) {
     return (
-        <article className={classes.meal}>
+        <article className={classes.car}>
             <header>
                 <div className={classes.image}>
                     <Image src={image} alt={name} fill />
