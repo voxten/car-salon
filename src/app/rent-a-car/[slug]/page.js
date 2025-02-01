@@ -32,13 +32,16 @@ export default async function CarDetailsPage({ params }) {
                     <p className={classes.carInfo}><strong>Production Year:</strong> {car.production_year}</p>
                 </div>
             </header>
-            <main className={classes.detailsSection}>
+            <main className={classes.headerText}>
                 <section className={classes.details}>
-                    <h2>Car Details</h2>
-                    <p className={classes.carDescription}>{car.information}</p>
-                    <RentalSlider pricePerDay={car.price_per_day} />
+                    <h2>Car Description</h2>
+                    <p className={classes.carInfo}>{car.information}</p>
+
                 </section>
             </main>
+            <div className={classes.rental}>
+                <RentalSlider pricePerDay={car.price_per_day} />
+            </div>
         </div>
     );
 }

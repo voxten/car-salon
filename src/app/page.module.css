@@ -24,10 +24,8 @@
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0.15rem;
     text-transform: uppercase;
-    background: linear-gradient(90deg, #f9572a, #ffc905);
     background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
 }
 
 .cta {
@@ -37,32 +35,30 @@
 }
 
 .cta a {
-    display: inline-block;
-    /* margin-top: 1rem; */
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    background: linear-gradient(90deg, #f9572a, #ff9b05);
-    color: #ffffff;
-    font-weight: bold;
-    text-decoration: none;
+    border-radius: 5px;
+    margin: 0.3rem;
+    display: inline-block;
 }
 
-.cta a:hover,
-.cta a:active {
-    background: linear-gradient(90deg, #fc5527, #ffbc50);
+.cta a:last-child:hover,
+.cta a:last-child:active {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
 .cta a:first-child {
     background: transparent;
     font-weight: normal;
-    color: #ff9b05;
     padding-left: 0;
 }
 
 .cta a:first-child:hover,
 .cta a:first-child:active {
     background: transparent;
-    color: #f9b241;
+    color: #ddd6cb;
 }
 
 .section {
