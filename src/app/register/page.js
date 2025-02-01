@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import styles from './register.module.css';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -43,50 +44,59 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="register-container">
-      <h1>Register</h1>
-      {error && <p className="error-message">{error}</p>}
+    <div className={styles.registerContainer}>
+      <h1 className={styles.registerHeading}>Register</h1>
+      {error && <p className={styles.registerErrorMessage}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
+        <div className={styles.registerFormGroup}>
+          <label className={styles.registerLabel}>Username:</label>
           <input
             type="text"
+            className={styles.registerInput}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Email:</label>
+        <div className={styles.registerFormGroup}>
+          <label className={styles.registerLabel}>Email:</label>
           <input
             type="email"
+            className={styles.registerInput}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className={styles.registerFormGroup}>
+          <label className={styles.registerLabel}>Password:</label>
           <input
             type="password"
+            className={styles.registerInput}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Confirm Password:</label>
+        <div className={styles.registerFormGroup}>
+          <label className={styles.registerLabel}>Confirm Password:</label>
           <input
             type="password"
+            className={styles.registerInput}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" className={styles.registerButton}>
+          Register
+        </button>
       </form>
-      <p>
-        Already have an account? <Link href="/login-form">Login here</Link>
+      <p className={styles.registerSwitchText}>
+        Already have an account?{" "}
+        <Link href="/login-form" className={styles.registerSwitchLink}>
+          Login here
+        </Link>
       </p>
     </div>
   );
