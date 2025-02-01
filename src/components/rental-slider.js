@@ -7,8 +7,9 @@ export default function RentalSlider({ pricePerDay }) {
     const [totalCost, setTotalCost] = useState(pricePerDay);
 
     useEffect(() => {
-        setTotalCost(rentalDays * pricePerDay);
+        setTotalCost(parseFloat((rentalDays * pricePerDay).toFixed(2)));
     }, [rentalDays, pricePerDay]);
+
 
     const handleSliderChange = (event) => {
         setRentalDays(Number(event.target.value));
