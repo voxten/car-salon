@@ -2,8 +2,8 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import sql from "better-sqlite3";
 import path from "path";
+import bcrypt from "bcrypt"; // Dodaj import bcrypt
 
-// Inicjalizacja połączenia z bazą danych
 const dbPath = path.resolve(process.cwd(), "car_salon.db");
 const db = sql(dbPath);
 
@@ -16,23 +16,32 @@ const authOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        // Zapytanie do bazy danych, aby znaleźć użytkownika
+        // 1. Znajdź użytkownika po nazwie użytkownika
         const user = db
-          .prepare("SELECT * FROM users WHERE username = ? AND password = ?")
-          .get(credentials.username, credentials.password);
+          .prepare("SELECT * FROM users WHERE username = ?")
+          .get(credentials.username);
 
-        if (user) {
-          // Zwróć obiekt użytkownika, jeśli znaleziono
-          return {
-            id: user.id,
-            name: user.username,
-            email: user.email,
-            role: user.role, // Zakładamy, że w bazie jest kolumna `role`
-          };
-        } else {
-          // Zwróć null, jeśli użytkownik nie został znaleziony
+        if (!user) {
           return null;
         }
+
+        // 2. Porównaj zahashowane hasło z podanym
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!passwordsMatch) {
+          return null;
+        }
+
+        // 3. Zwróć dane użytkownika bez hasła
+        return {
+          id: user.id,
+          name: user.username,
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
   ],
