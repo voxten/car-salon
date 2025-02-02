@@ -3,11 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
 import bcrypt from "bcrypt";
 
-// Dodaj walidację zmiennych środowiskowych
-if (!process.env.DATABASE_URL) {
-  throw new Error("POSTGRES_URL is not defined in environment variables");
-}
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -33,12 +28,13 @@ export const authOptions = {
 
           return isValid 
             ? { 
-                id: user.id.toString(),
-                name: user.username,
-                email: user.email,
+                id: user.id.toString(), 
+                name: user.username, 
+                email: user.email, 
                 role: user.role 
               }
             : null;
+
         } catch (error) {
           console.error("Authorization error:", error);
           return null;
