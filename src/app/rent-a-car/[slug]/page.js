@@ -1,3 +1,4 @@
+"use server";
 import RentalSlider from '@/components/rental-slider';
 import classes from "./page.module.css";
 import { getCar, updateCar } from "@/app/lib/cars";
