@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 import classes from './car-item.module.css';
 
@@ -8,7 +7,7 @@ export default function CarItem({ name, slug, image, model, brand, price_per_day
         <article className={classes.car}>
             <header>
                 <div className={classes.image}>
-                    <Image src={image} alt={name} fill />
+                    <img src={image} alt={name} />
                 </div>
                 <div className={classes.headerText}>
                     <h2>{name}</h2>

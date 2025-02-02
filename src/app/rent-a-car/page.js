@@ -20,8 +20,11 @@ export default async function CarsPage() {
                 <p>
                     Affordable, convenient, and ready when you are!
                 </p>
+                <div className={classes.actions}>
+                    <Link href={`/rent-a-car/create-new`}>Add New Car</Link>
+                </div>
             </header>
-            <Link href={`/rent-a-car/create-new`}>Add New Car</Link>
+
             <main className={classes.main}>
                 <Suspense fallback={<p className={loadingClass.loading}>Loading cars...</p>}>
                     <Cars />
