@@ -1,8 +1,12 @@
-const sql = require('better-sqlite3');
-const db = sql('car_salon.db');
+require('dotenv').config();
+const { Client } = require('pg');
 
-db.prepare(`DROP TABLE IF EXISTS cars`).run();
-db.prepare(`DROP TABLE IF EXISTS users`).run();
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
 
 const dummyCars = [
     {
@@ -82,62 +86,68 @@ const dummyUsers = [
     }
 ];
 
-db.prepare(`
-   CREATE TABLE IF NOT EXISTS cars (
-       id INTEGER PRIMARY KEY AUTOINCREMENT,
-       slug TEXT NOT NULL UNIQUE,
-       name TEXT NOT NULL,
-       image TEXT NOT NULL,
-       color TEXT NOT NULL,
-       brand TEXT NOT NULL,
-       model TEXT NOT NULL,
-       version TEXT NOT NULL,
-       price_per_day REAL NOT NULL,
-       fuel_usage REAL NOT NULL,
-       fuel_type TEXT NOT NULL,
-       engine_name TEXT NOT NULL,
-       power INTEGER NOT NULL,
-       acceleration REAL NOT NULL,
-       max_speed INTEGER NOT NULL,
-       gearbox_type TEXT NOT NULL,
-       body_type TEXT NOT NULL,
-       production_year INTEGER NOT NULL,
-       information TEXT
-   )
-`).run();
+async function setupDatabase() {
+    await client.connect();
 
-db.prepare(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+    await client.query(`DROP TABLE IF EXISTS cars CASCADE;`);
+    await client.query(`DROP TABLE IF EXISTS users CASCADE;`);
+
+    await client.query(`
+    CREATE TABLE cars (
+      id SERIAL PRIMARY KEY,
+      slug TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      image TEXT NOT NULL,
+      color TEXT NOT NULL,
+      brand TEXT NOT NULL,
+      model TEXT NOT NULL,
+      version TEXT NOT NULL,
+      price_per_day REAL NOT NULL,
+      fuel_usage REAL NOT NULL,
+      fuel_type TEXT NOT NULL,
+      engine_name TEXT NOT NULL,
+      power INTEGER NOT NULL,
+      acceleration REAL NOT NULL,
+      max_speed INTEGER NOT NULL,
+      gearbox_type TEXT NOT NULL,
+      body_type TEXT NOT NULL,
+      production_year INTEGER NOT NULL,
+      information TEXT
+    );
+  `);
+
+    await client.query(`
+    CREATE TABLE users (
+      id SERIAL PRIMARY KEY,
       username TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       role TEXT NOT NULL
-    )
-`).run();
+    );
+  `);
 
-function initData() {
-    const carStmt = db.prepare(`
-      INSERT INTO cars VALUES (
-         null, @slug, @name, @image, @color, @brand, @model, @version, @price_per_day,
-         @fuel_usage, @fuel_type, @engine_name, @power, @acceleration, @max_speed,
-         @gearbox_type, @body_type, @production_year, @information
-      )
-    `);
+    const insertCarQuery = `
+    INSERT INTO cars (slug, name, image, color, brand, model, version, price_per_day,
+      fuel_usage, fuel_type, engine_name, power, acceleration, max_speed,
+      gearbox_type, body_type, production_year, information)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+  `;
 
     for (const car of dummyCars) {
-        carStmt.run(car);
+        await client.query(insertCarQuery, Object.values(car));
     }
 
-    const userStmt = db.prepare(`
-      INSERT INTO users VALUES (
-         null, @username, @password, @email, @role
-      )
-    `);
+    const insertUserQuery = `
+    INSERT INTO users (username, password, email, role)
+    VALUES ($1, $2, $3, $4)
+  `;
 
     for (const user of dummyUsers) {
-        userStmt.run(user);
+        await client.query(insertUserQuery, Object.values(user));
     }
+
+    console.log('Database initialized successfully');
+    await client.end();
 }
 
-initData();
+setupDatabase().catch(console.error);

@@ -3,8 +3,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
-const dbPath = path.resolve(process.cwd(), 'car_salon.db');
-const db = sql(dbPath);
+
 
 async function createAdmin() {
   const adminData = {
