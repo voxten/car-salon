@@ -55,9 +55,9 @@ export default function MainHeader() {
                             <NavLink href="/my-reservations">My Reservations</NavLink>
                         </li>
                     )}
-                    <li>
                     <div className={styles.login}>
                         {isLoggedIn ? (
+                            <li>
                             <div className={styles.userInfo}>  
                                 <span>You are logged as </span><span className={styles.username}>{session.user.name} </span>
                                 <button
@@ -67,6 +67,7 @@ export default function MainHeader() {
                                     Log Out
                                 </button>
                             </div>
+                            </li>
                         ) : (
                             <NavLink href="/login-form">
                                 <Image
@@ -80,7 +81,6 @@ export default function MainHeader() {
                         )}
                         
                     </div>
-                    </li>
                 </ul>
             </nav>
         </header>
