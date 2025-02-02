@@ -5,11 +5,11 @@ import { notFound } from "next/navigation";
 import CarDetailsClient from './CarDetailsClient'; // Create a separate client component
 
 export default async function CarDetailsPage({ params }) {
-    const slug = params.slug;
+    const { slug } = params;
     const car = await getCar(slug);
 
     if (!car) {
-        return notFound(); // Shows a 404 page if car is not found
+        return notFound();
     }
 
     return (
@@ -22,7 +22,16 @@ export default async function CarDetailsPage({ params }) {
                     <h1 className={classes.title}>{car.name}</h1>
                     <p className={classes.carInfo}><strong>Brand:</strong> {car.brand}</p>
                     <p className={classes.carInfo}><strong>Model:</strong> {car.model} ({car.version})</p>
+                    <p className={classes.carInfo}><strong>Color:</strong> {car.color}</p>
                     <p className={classes.carInfo}><strong>Price per day:</strong> ${car.price_per_day}</p>
+                    <p className={classes.carInfo}><strong>Fuel Type:</strong> {car.fuel_type} ({car.fuel_usage} L/100km)</p>
+                    <p className={classes.carInfo}><strong>Engine:</strong> {car.engine_name}</p>
+                    <p className={classes.carInfo}><strong>Power:</strong> {car.power} HP</p>
+                    <p className={classes.carInfo}><strong>Acceleration:</strong> {car.acceleration} sec (0-100 km/h)</p>
+                    <p className={classes.carInfo}><strong>Max Speed:</strong> {car.max_speed} km/h</p>
+                    <p className={classes.carInfo}><strong>Gearbox:</strong> {car.gearbox_type}</p>
+                    <p className={classes.carInfo}><strong>Body Type:</strong> {car.body_type}</p>
+                    <p className={classes.carInfo}><strong>Production Year:</strong> {car.production_year}</p>
                 </div>
             </header>
             <main className={classes.headerText}>
