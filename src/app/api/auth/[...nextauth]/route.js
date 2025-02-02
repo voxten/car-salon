@@ -3,7 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { sql } from "@vercel/postgres";
 import bcrypt from "bcrypt";
 
-const authOptions = {
+// Dodaj walidację zmiennych środowiskowych
+if (!process.env.DATABASE_URL) {
+  throw new Error("POSTGRES_URL is not defined in environment variables");
+}
+
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -11,9 +16,8 @@ const authOptions = {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (credentials) => {
+      async authorize(credentials) {
         try {
-          // 1. Znajdź użytkownika w PostgreSQL
           const result = await sql`
             SELECT * FROM users 
             WHERE username = ${credentials.username}
@@ -22,24 +26,21 @@ const authOptions = {
           if (result.rowCount === 0) return null;
           const user = result.rows[0];
 
-          // 2. Porównaj zahashowane hasło
           const isValid = await bcrypt.compare(
             credentials.password,
             user.password
           );
 
-          if (!isValid) return null;
-
-          // 3. Zwróć dane użytkownika
-          return {
-            id: user.id.toString(),
-            name: user.username,
-            email: user.email,
-            role: user.role,
-          };
-          
+          return isValid 
+            ? { 
+                id: user.id.toString(),
+                name: user.username,
+                email: user.email,
+                role: user.role 
+              }
+            : null;
         } catch (error) {
-          console.error("Authentication error:", error);
+          console.error("Authorization error:", error);
           return null;
         }
       },
@@ -47,19 +48,25 @@ const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.id = user.id;
+      }
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.role;
+      if (token?.role) {
+        session.user.role = token.role;
+        session.user.id = token.id;
+      }
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login-form",
     error: "/login-form",
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

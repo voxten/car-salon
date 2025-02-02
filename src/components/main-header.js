@@ -25,7 +25,7 @@ export default function MainHeader() {
     const path = usePathname();
 
     const isLoggedIn = status === "authenticated";
-
+    const isClient = isLoggedIn && session?.user?.role === "client";
     return (
         <header className={styles.header}>
             <Link className={styles.logo} href="/">
@@ -49,6 +49,11 @@ export default function MainHeader() {
                     <li>
                         <NavLink href="/contact-us">Contact Us</NavLink>
                     </li>
+                    {isLoggedIn && isClient && (
+                        <li>
+                            <NavLink href="/my-reservations">My Reservations</NavLink>
+                        </li>
+                    )}
 
                     <div className={styles.login}>
                         {isLoggedIn ? (
@@ -72,6 +77,7 @@ export default function MainHeader() {
                                 />
                             </NavLink>
                         )}
+                        
                     </div>
                 </ul>
             </nav>

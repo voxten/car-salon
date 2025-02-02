@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./login-form.module.css";
@@ -16,30 +17,17 @@ export default function LoginForm() {
     setError("");
     setIsLoading(true);
 
-    if (!username || !password) {
-      setError("Please fill in all fields");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      // Wyślij zapytanie do API logowania
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
+      const result = await signIn("credentials", {
+        redirect: false,
+        username,
+        password,
       });
 
-      const result = await response.json();
-
-      // Obsługuje błąd w przypadku niepowodzenia logowania
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || "Invalid credentials");
+      if (result?.error) {
+        throw new Error(result.error);
       }
 
-      // Po pomyślnym logowaniu przekierowujemy użytkownika
       router.push("/");
     } catch (err) {
       setError(err.message || "Invalid credentials");
@@ -51,12 +39,8 @@ export default function LoginForm() {
   return (
     <div className={styles.loginContainer}>
       <h1 className={styles.loginHeading}>Login to Car Rental</h1>
-
-      {error && (
-        <div className={styles.loginError}>
-          {error}
-        </div>
-      )}
+      
+      {error && <div className={styles.loginError}>{error}</div>}
 
       <form onSubmit={handleSubmit} className={styles.loginForm}>
         <div className={styles.loginFormGroup}>
@@ -64,10 +48,10 @@ export default function LoginForm() {
             Username:
             <input
               type="text"
-              className={styles.loginInput}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
+              className={styles.loginInput}
             />
           </label>
         </div>
@@ -77,18 +61,18 @@ export default function LoginForm() {
             Password:
             <input
               type="password"
-              className={styles.loginInput}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
+              className={styles.loginInput}
             />
           </label>
         </div>
 
         <button 
           type="submit" 
-          className={styles.loginButton}
           disabled={isLoading}
+          className={styles.loginButton}
         >
           {isLoading ? "Signing In..." : "Sign In"}
         </button>
