@@ -26,6 +26,7 @@ export default function MainHeader() {
 
     const isLoggedIn = status === "authenticated";
     const isClient = isLoggedIn && session?.user?.role === "client";
+    if (status === "loading") return <div>Loading...</div>;
     return (
         <header className={styles.header}>
             <Link className={styles.logo} href="/">
