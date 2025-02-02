@@ -88,3 +88,47 @@ export async function getCar(slug) {
         return null;
     }
 }
+
+export async function insertCar(data) {
+    try {
+        const query = `
+            INSERT INTO cars (
+                slug, name, brand, image, model, version, color, price_per_day, 
+                fuel_type, fuel_usage, engine_name, power, acceleration, 
+                max_speed, gearbox_type, body_type, production_year, information
+            ) VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 
+                $13, $14, $15, $16, $17, $18
+            )
+        `;
+
+        const values = [
+            data.slug,
+            data.name,
+            data.brand,
+            data.image,
+            data.model,
+            data.version,
+            data.color,
+            data.price_per_day,
+            data.fuel_type,
+            data.fuel_usage,
+            data.engine_name,
+            data.power,
+            data.acceleration,
+            data.max_speed,
+            data.gearbox_type,
+            data.body_type,
+            data.production_year,
+            data.information,
+        ];
+
+        await client.query(query, values);
+        return { success: true };
+    } catch (error) {
+        console.error("Error inserting car:", error);
+        return { success: false, error };
+    }
+}
+
+

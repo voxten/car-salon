@@ -3,6 +3,7 @@ import loadingClass from '@/app/loading.module.css';
 import CarsGrid from "@/components/grid/car-grid";
 import { getCars } from '@/app/lib/cars';
 import {Suspense} from "react";
+import Link from "next/link";
 
 async function Cars(){
     const cars = await getCars();
@@ -20,6 +21,7 @@ export default async function CarsPage() {
                     Affordable, convenient, and ready when you are!
                 </p>
             </header>
+            <Link href={`/rent-a-car/create-new`}>Add New Car</Link>
             <main className={classes.main}>
                 <Suspense fallback={<p className={loadingClass.loading}>Loading cars...</p>}>
                     <Cars />
