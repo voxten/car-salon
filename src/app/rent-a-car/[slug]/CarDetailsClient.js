@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { updateCar } from "@/app/lib/cars";
 
 export default function CarDetailsClient({ car, slug }) {
     const [editMode, setEditMode] = useState(false);
@@ -14,8 +13,21 @@ export default function CarDetailsClient({ car, slug }) {
     };
 
     const handleSubmit = async () => {
-        await updateCar(slug, formData);
-        setEditMode(false);
+        try {
+            const response = await fetch(`/api/cars/${slug}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update car");
+            }
+
+            setEditMode(false);
+        } catch (error) {
+            console.error("Error updating car:", error);
+        }
     };
 
     return (
