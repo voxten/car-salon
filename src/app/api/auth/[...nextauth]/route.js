@@ -17,6 +17,7 @@ const authOptions = {
       },
       authorize: async (credentials) => {
         // 1. Znajdź użytkownika po nazwie użytkownika
+        console.log(db);
         const user = db
           .prepare("SELECT * FROM users WHERE username = ?")
           .get(credentials.username);

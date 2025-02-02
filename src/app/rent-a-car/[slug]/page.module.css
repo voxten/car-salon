@@ -5,6 +5,12 @@
     color: #ddd6cb;
 }
 
+.input {
+    padding: 0;
+    margin: 0;
+    width: 20%;
+}
+
 .header {
     display: flex;
     gap: 2rem;
@@ -55,6 +61,13 @@
     border-radius: 5px;
     margin: 0.3rem;
     display: inline-block;
+}
+
+.carInfo input {
+    padding: 0;
+    margin: 0;
+    width: 40px;
+    text-align: center;
 }
 
 .detailsSection {
