@@ -33,20 +33,20 @@ export async function POST(request) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    // Wstaw nowego użytkownika do bazy
     const stmt = db.prepare(
       "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
     );
     stmt.run(username, email, hashedPassword, "client");
-
     return NextResponse.json(
       { message: "User registered successfully" },
       { status: 201 }
     );
   } catch (err) {
+    console.error("Error inserting user:", err);
     return NextResponse.json(
       { message: "Database error" },
       { status: 500 }
     );
   }
+  
 }
