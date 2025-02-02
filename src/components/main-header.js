@@ -55,16 +55,16 @@ export default function MainHeader() {
                             <NavLink href="/my-reservations">My Reservations</NavLink>
                         </li>
                     )}
-
+                    <li>
                     <div className={styles.login}>
                         {isLoggedIn ? (
-                            <div className={styles.userInfo}>
-                                <span className={styles.username}>{session.user.name}</span>
+                            <div className={styles.userInfo}>  
+                                <span>You are logged as </span><span className={styles.username}>{session.user.name} </span>
                                 <button
                                     onClick={() => signOut({ callbackUrl: "/" })}
                                     className={styles.logoutButton}
                                 >
-                                    Logout
+                                    Log Out
                                 </button>
                             </div>
                         ) : (
@@ -80,6 +80,7 @@ export default function MainHeader() {
                         )}
                         
                     </div>
+                    </li>
                 </ul>
             </nav>
         </header>

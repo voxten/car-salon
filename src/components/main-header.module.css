@@ -4,7 +4,30 @@
     align-items: center;
     padding: 2rem 1rem;
 }
-
+.logoutButton {
+    text-decoration: none;
+    color: #ddd6cb;
+    font-weight: bold;
+    
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .logoutButton:hover,
+  .logoutButton:active {
+    background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0.1));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .logoutButton:focus {
+    outline: none;
+  }
+  
 @media (min-width: 768px) {
     .header {
         padding: 2rem 10%;
