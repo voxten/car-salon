@@ -1,52 +1,23 @@
-import { NextResponse } from "next/server";
-import sql from "better-sqlite3";
-import path from "path";
-import bcrypt from "bcrypt";
-
-const dbPath = path.resolve(process.cwd(), "car_salon.db");
-const db = sql(dbPath);
+import { registerUser } from './insertuser';
 
 export async function POST(request) {
-  const { username, email, password } = await request.json();
+    const { username, email, password, confirmPassword } = await request.json();
 
-  // Walidacja
-  if (!username || !email || !password) {
-    return NextResponse.json(
-      { message: "All fields are required" },
-      { status: 400 }
-    );
-  }
+    // Walidacja danych
+    if (!username || !email || !password || !confirmPassword) {
+        return new Response(JSON.stringify({ message: "All fields are required" }), { status: 400 });
+    }
 
-  // Sprawdź czy użytkownik już istnieje
-  const existingUser = db
-    .prepare("SELECT * FROM users WHERE email = ? OR username = ?")
-    .get(email, username);
+    if (password !== confirmPassword) {
+        return new Response(JSON.stringify({ message: "Passwords do not match!" }), { status: 400 });
+    }
 
-  if (existingUser) {
-    return NextResponse.json(
-      { message: "User already exists" },
-      { status: 409 }
-    );
-  }
+    // Wywołanie funkcji rejestracji
+    const result = await registerUser(username, email, password, 'client');
 
-  // Hashowanie hasła
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  try {
-    const stmt = db.prepare(
-      "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
-    );
-    stmt.run(username, email, hashedPassword, "client");
-    return NextResponse.json(
-      { message: "User registered successfully" },
-      { status: 201 }
-    );
-  } catch (err) {
-    console.error("Error inserting user:", err);
-    return NextResponse.json(
-      { message: "Database error" },
-      { status: 500 }
-    );
-  }
-  
+    if (result.success) {
+        return new Response(JSON.stringify({ message: result.message }), { status: 201 });
+    } else {
+        return new Response(JSON.stringify({ message: result.message }), { status: 500 });
+    }
 }

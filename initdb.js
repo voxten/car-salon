@@ -142,8 +142,10 @@ async function setupDatabase() {
     VALUES ($1, $2, $3, $4)
   `;
 
+    // Haszowanie haseł i dodanie użytkowników
     for (const user of dummyUsers) {
-        await client.query(insertUserQuery, Object.values(user));
+        const hashedPassword = await bcrypt.hash(user.password, 10); // Haszowanie hasła
+        await client.query(insertUserQuery, [user.username, hashedPassword, user.email, user.role]);
     }
 
     console.log('Database initialized successfully');

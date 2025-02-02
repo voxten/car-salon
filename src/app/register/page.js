@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Walidacja
+    // Walidacja - Sprawdzamy, czy hasła się zgadzają
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
       return;
@@ -27,7 +27,7 @@ export default function RegisterPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, confirmPassword }),
       });
 
       const data = await response.json();
@@ -36,17 +36,17 @@ export default function RegisterPage() {
         throw new Error(data.message || "Registration failed");
       }
 
-      // Przekieruj do logowania po udanej rejestracji
+      // Przekierowanie do logowania po udanej rejestracji
       router.push("/login-form");
     } catch (err) {
-      setError(err.message);
+      setError(err.message);  // W przypadku błędu wyświetlamy komunikat
     }
   };
 
   return (
     <div className={styles.registerContainer}>
       <h1 className={styles.registerHeading}>Register</h1>
-      {error && <p className={styles.registerErrorMessage}>{error}</p>}
+      {error && <p className={styles.registerErrorMessage}>{error}</p>} {/* Komunikat o błędzie */}
       <form onSubmit={handleSubmit}>
         <div className={styles.registerFormGroup}>
           <label className={styles.registerLabel}>Username:</label>
