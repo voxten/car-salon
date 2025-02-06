@@ -54,9 +54,15 @@ export default function CarDetailsClient({ car, slug }) {
                 {editMode ? (
                     <div className={classes.imageWrapper}>
                         <img
-                            src={uploadedFile ? uploadedFile.url : car.image}
-                            alt="car-image"
-                            className={classes.image}
+                            src={
+                                uploadedFile
+                                    ? uploadedFile.url
+                                    : !car.image || car.image === "/"
+                                        ? "/placeholder.jpeg"
+                                        : car.image
+                            }
+                            onError={(e) => (e.target.src = "/placeholder.jpeg")}
+                            alt={car.name}
                         />
                         <div className={classes.uploadOverlay}>
                             <FileUpload onUpload={handleFileUpload} />
