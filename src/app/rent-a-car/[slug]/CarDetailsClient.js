@@ -3,6 +3,7 @@
 import { useState } from "react";
 import classes from "./page.module.css";
 import { useRouter } from "next/navigation";
+import FileUpload from "@/components/file-upload/file-upload";
 
 export default function CarDetailsClient({ car, slug }) {
     const router = useRouter();
@@ -11,16 +12,29 @@ export default function CarDetailsClient({ car, slug }) {
 
     const handleEditClick = () => setEditMode(true);
 
+    const [uploadedFile, setUploadedFile] = useState(null);
+
+    const handleFileUpload = (fileData) => {
+        setUploadedFile(fileData);
+        console.log("Uploaded file:", fileData);
+    };
+
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async () => {
         try {
+            const updatedFormData = {
+                ...formData,
+                image: uploadedFile ? uploadedFile.url : formData.image
+            };
+
             const response = await fetch(`/api/cars/${slug}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(updatedFormData ),
             });
 
             if (!response.ok) {
@@ -37,9 +51,22 @@ export default function CarDetailsClient({ car, slug }) {
     return (
         <div>
             <header className={classes.header}>
-                <div className={classes.imageWrapper}>
-                    <img src={car.image} alt={car.name} className={classes.image} />
-                </div>
+                {editMode ? (
+                    <div className={classes.imageWrapper}>
+                        <img
+                            src={uploadedFile ? uploadedFile.url : car.image}
+                            alt="car-image"
+                            className={classes.image}
+                        />
+                        <div className={classes.uploadOverlay}>
+                            <FileUpload onUpload={handleFileUpload} />
+                        </div>
+                    </div>
+                ) : (
+                    <div className={classes.imageWrapper}>
+                        <img src={car.image} alt={car.name} className={classes.image} />
+                    </div>
+                )}
                 <div className={classes.headerText}>
                     {editMode ? (
                         <h1 className={classes.title}>
@@ -158,7 +185,7 @@ export default function CarDetailsClient({ car, slug }) {
                     ) : (
                         <p className={classes.carInfo}>{car.information}</p>
                     )}
-
+                    <input type="hidden" name="image" value={uploadedFile ? uploadedFile.url : car.image} />
                 </section>
             </main>
             {editMode ? (

@@ -1,0 +1,32 @@
+.fileUploadClass {
+    padding: 1rem;
+    text-align: center;
+}
+
+.fileUploadClass a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ddd6cb;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.fileUploadClass a:hover,
+.fileUploadClass a:active {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
