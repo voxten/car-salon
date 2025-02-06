@@ -1,30 +1,25 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 export async function middleware(req) {
-  const authHeader = req.headers.get("authorization");
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  if (!authHeader) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  // Decode token manually if it's a JWT (or fetch session from API if needed)
-  let token;
-  try {
-    token = JSON.parse(atob(authHeader.split(".")[1])); // Decode JWT payload
-  } catch (error) {
+  // Redirect unauthenticated users to login page
+  if (!token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
   const { pathname } = req.nextUrl;
 
-  // Restrict access based on role
+  // Restrict access to /admin, /dashboard, and /rent-a-car/create-new to admin only
   if (
-      (pathname === "/rent-a-car/create-new" || pathname === "/manage-reservations") &&
+      (pathname.startsWith("/admin") || pathname === "/rent-a-car/create-new" || pathname === "/manage-reservations") &&
       (!token.role || token.role !== "admin")
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
+  // Restrict access to /my-reservations to users only
   if (pathname === "/my-reservations" && (!token.role || token.role !== "client")) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -32,6 +27,7 @@ export async function middleware(req) {
   return NextResponse.next();
 }
 
+// Define routes where the middleware should apply
 export const config = {
   matcher: ["/admin/:path*", "/dashboard", "/rent-a-car/create-new", "/my-reservations", "/manage-reservations"],
 };
