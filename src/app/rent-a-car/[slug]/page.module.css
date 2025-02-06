@@ -19,7 +19,7 @@
 }
 
 .imageWrapper {
-    flex-shrink: 0;
+    position: relative;
     width: 30rem;
     height: 20rem;
 }
@@ -29,8 +29,16 @@
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-    animation: fade-in 1s ease-out;
+}
+
+.uploadOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 10px;
 }
 
 .headerText {
@@ -61,6 +69,10 @@
     border-radius: 5px;
     margin: 0.3rem;
     display: inline-block;
+}
+
+.h3upload h3 {
+    text-align: center;
 }
 
 .title input {

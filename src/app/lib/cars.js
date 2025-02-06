@@ -33,8 +33,9 @@ export async function updateCar(slug, data) {
                 gearbox_type = $13, 
                 body_type = $14, 
                 production_year = $15, 
-                information = $16 
-            WHERE slug = $17
+                information = $16,
+                image = $17
+            WHERE slug = $18
         `;
 
         const values = [
@@ -54,6 +55,7 @@ export async function updateCar(slug, data) {
             data.body_type,
             data.production_year,
             data.information,
+            data.image,
             slug,
         ];
 
