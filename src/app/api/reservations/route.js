@@ -5,8 +5,6 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
 
-  console.log("Fetching reservations for user ID:", userId); // Logowanie
-
   if (!userId) {
     return NextResponse.json(
       { error: "User ID is required" },
@@ -21,9 +19,6 @@ export async function GET(request) {
         JOIN cars c ON r.car_id = c.id
         WHERE r.user_id = ${userId}
         `;
-
-
-    console.log("Query result:", result.rows); // Logowanie wyniku zapytania
 
     return NextResponse.json(result.rows, { status: 200 });
   } catch (error) {

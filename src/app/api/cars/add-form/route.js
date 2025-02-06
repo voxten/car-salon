@@ -3,7 +3,6 @@ import { insertCar } from "@/app/lib/cars";
 export async function POST(req) {
     try {
         const body = await req.json();
-        console.log("Received Data:", body);
 
         if (!body.slug) {
             return new Response(JSON.stringify({ error: "Slug is required" }), { status: 400 });

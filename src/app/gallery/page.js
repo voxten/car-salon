@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { getCars } from "@/app/lib/cars";
 import loadingClass from '@/app/loading.module.css';
+import classes from "@/app/rent-a-car/[slug]/page.module.css";
 
 export default function Gallery() {
     const [cars, setCars] = useState([]);
@@ -40,6 +41,7 @@ export default function Gallery() {
 
     return (
         <>
+            <div className={classes.container}>
             <header className={styles.header}>
                 <h1>Gallery</h1>
             </header>
@@ -68,6 +70,7 @@ export default function Gallery() {
                     <button className={styles.next} onClick={nextImage}>›</button>
                 </div>
             )}
+            </div>
         </>
     );
 }

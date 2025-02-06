@@ -302,10 +302,6 @@ async function setupDatabase() {
         await client.query(insertCarQuery, Object.values(car));
     }
 
-    const insertUserQuery = `
-    INSERT INTO users (username, password, email, role)
-    VALUES ($1, $2, $3, $4)
-  `;
 
     console.log('Database initialized successfully');
     await client.end();
