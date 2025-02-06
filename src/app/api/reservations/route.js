@@ -16,11 +16,12 @@ export async function GET(request) {
 
   try {
     const result = await sql`
-      SELECT r.id, c.name AS car_name, c.image, r.start_date, r.end_date, r.total_amount, r.status
-      FROM reservations r
-      JOIN cars c ON r.car_id = c.id
-      WHERE r.user_id = ${userId}
-    `;
+        SELECT r.id, c.name AS car_name, c.slug, c.image, r.start_date, r.end_date, r.total_amount, r.status
+        FROM reservations r
+        JOIN cars c ON r.car_id = c.id
+        WHERE r.user_id = ${userId}
+        `;
+
 
     console.log("Query result:", result.rows); // Logowanie wyniku zapytania
 

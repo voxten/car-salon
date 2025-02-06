@@ -1,6 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styles from "./reservations-form.module.css";
 
 export default function MyReservations() {
@@ -54,7 +55,12 @@ export default function MyReservations() {
           {reservations.map((reservation) => (
             <li key={reservation.id} className={styles.reservationItem}>
               <div className={styles.reservationText}>
-                <p><strong>Car:</strong> {reservation.car_name}</p>
+                <p>
+                  <strong>Car:</strong> 
+                  <Link href={`/rent-a-car/${reservation.slug}`} className={styles.carLink}>
+                    {reservation.car_name}
+                  </Link>
+                </p>
                 <p><strong>Start Date:</strong> {reservation.start_date}</p>
                 <p><strong>End Date:</strong> {reservation.end_date}</p>
                 <p><strong>Total Amount:</strong> {reservation.total_amount}</p>

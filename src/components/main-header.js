@@ -26,6 +26,7 @@ export default function MainHeader() {
 
     const isLoggedIn = status === "authenticated";
     const isClient = isLoggedIn && session?.user?.role === "client";
+    const isAdmin = isLoggedIn && session?.user?.role === "admin";
     if (status === "loading") return <div>Loading...</div>;
     return (
         <header className={styles.header}>
@@ -53,6 +54,11 @@ export default function MainHeader() {
                     {isLoggedIn && isClient && (
                         <li>
                             <NavLink href="/my-reservations">My Reservations</NavLink>
+                        </li>
+                    )}
+                    {isLoggedIn && isAdmin && (
+                        <li>
+                            <NavLink href="/manage-reservations">Manage Reservations</NavLink>
                         </li>
                     )}
                     <div className={styles.login}>
