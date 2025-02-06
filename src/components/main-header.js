@@ -30,6 +30,7 @@ export default function MainHeader() {
 
     const isLoggedIn = status === "authenticated";
     const isClient = isLoggedIn && session?.user?.role === "client";
+    const isAdmin = isLoggedIn && session?.user?.role === "admin";
     if (status === "loading") return <div>Loading...</div>;
     return (
         <header className={styles.header}>
@@ -54,7 +55,6 @@ export default function MainHeader() {
                     <li>
                         <NavLink href="/contact-us">Contact Us</NavLink>
                     </li>
-
                     <div className={styles.login}>
                         {isLoggedIn ? (
                             <div className={styles.userInfo}>  
@@ -69,6 +69,11 @@ export default function MainHeader() {
                                             height={50}
                                         />
                                     </NavLink>
+                                )}
+                                {isLoggedIn && isAdmin && (
+                                    <li>
+                                        <NavLink href="/manage-reservations">Manage Reservations</NavLink>
+                                    </li>
                                 )}
                                 <button
                                     onClick={() => signOut({ callbackUrl: "/" })}
