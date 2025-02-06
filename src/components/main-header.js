@@ -6,12 +6,17 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 
 import logoImg from '@/assets/icons/car.png';
+
 import login from '@/assets/icons/login.png';
-import logout from '@/assets/icons/logout.png';
 import loginActive from '@/assets/icons/login-active.png';
+
+import logout from '@/assets/icons/logout.png';
+
 import reservation from '@/assets/icons/reservation.png';
 import reservationActive from '@/assets/icons/reservation-active.png';
 
+import reservationAdminActive from '@/assets/icons/reservation-admin-active.png';
+import reservationAdmin from '@/assets/icons/reservation-admin.png';
 
 function NavLink({ href, children }) {
     const path = usePathname();
@@ -71,9 +76,15 @@ export default function MainHeader() {
                                     </NavLink>
                                 )}
                                 {isLoggedIn && isAdmin && (
-                                    <li>
-                                        <NavLink href="/manage-reservations">Manage Reservations</NavLink>
-                                    </li>
+                                    <NavLink href="/manage-reservations">
+                                        <Image
+                                            src={path === "/manage-reservations" ? reservationAdminActive : reservationAdmin}
+                                            alt="Reservations"
+                                            priority
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </NavLink>
                                 )}
                                 <button
                                     onClick={() => signOut({ callbackUrl: "/" })}
