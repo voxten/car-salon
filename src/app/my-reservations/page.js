@@ -31,10 +31,6 @@ export default function MyReservations() {
     }
   };
 
-  if (status === "loading") {
-    return <div className={styles.loading}>Loading...</div>;
-  }
-
   if (status === "unauthenticated") {
     return <div className={styles.message}>Please log in to view your reservations.</div>;
   }
@@ -67,7 +63,9 @@ export default function MyReservations() {
                 <p><strong>Status:</strong> {reservation.status}</p>
               </div>
               <div className={styles.imageWrapper}>
-                <img src={reservation.image} alt={reservation.car_name} className={styles.carImage} />
+                <Link href={`/rent-a-car/${reservation.slug}`} className={styles.carLink}>
+                  <img src={reservation.image} alt={reservation.car_name} className={styles.carImage} />
+                </Link>
               </div>
             </li>
           ))}

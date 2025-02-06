@@ -133,4 +133,16 @@ export async function insertCar(data) {
     }
 }
 
+export async function deleteCar(slug) {
+    try {
+        const query = `DELETE FROM cars WHERE slug = $1`;
+        await client.query(query, [slug]);
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting car:", error);
+        return { success: false, error };
+    }
+}
+
+
 
