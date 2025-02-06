@@ -4,14 +4,16 @@ import { useState } from "react";
 import classes from "./page.module.css";
 import { useRouter } from "next/navigation";
 import FileUpload from "@/components/file-upload/file-upload";
+import { useSession } from 'next-auth/react';
+
 
 export default function CarDetailsClient({ car, slug }) {
+    
     const router = useRouter();
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState(car);
 
     const handleEditClick = () => setEditMode(true);
-
     const [uploadedFile, setUploadedFile] = useState(null);
 
     const handleFileUpload = (fileData) => {
@@ -23,6 +25,52 @@ export default function CarDetailsClient({ car, slug }) {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    
+    const { data: session, status } = useSession();
+    const isLoggedIn = status === "authenticated";
+    const isClient = isLoggedIn && session?.user?.role === "client";
+    const isAdmin = isLoggedIn && session?.user?.role === "admin";
+    const [rentalDays, setRentalDays] = useState(1);
+    const [totalCost, setTotalCost] = useState(car.price_per_day);
+
+    
+    const getRentalDetails = () => {
+        const rentalDays = Number(document.getElementById("rentalDays")?.value || 1);
+        const totalCostText = document.querySelector(`.${classes.totalCost} strong`)?.textContent || "0";
+        const totalCost = parseFloat(totalCostText.replace("$", "")) || car.price_per_day*rentalDays;
+        return { rentalDays, totalCost };
+    };
+
+
+    const handleReserveClick = async () => {
+        try {
+            const { rentalDays, totalCost } = getRentalDetails();
+
+            const response = await fetch("/api/reserve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    carId: car.id,
+                    userId: session.user.id,
+                    rentalDays,
+                    totalCost,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Error response:", errorData);
+                throw new Error("Failed to create reservation");
+            }
+
+            alert("Reservation successful!");
+            router.refresh();
+        } catch (error) {
+            console.error("Error creating reservation:", error);
+            alert("Error creating reservation. Please try again.");
+        }
+    };
+   
 
     const handleSubmit = async () => {
         try {
@@ -200,7 +248,10 @@ export default function CarDetailsClient({ car, slug }) {
                 </div>
             ) : (
                 <div className={classes.actions}>
-                    <button onClick={handleEditClick}><a>Edit</a></button>
+                    {isLoggedIn && isAdmin && ( <button onClick={handleEditClick}><a>Edit</a></button>  )}
+                    
+                    {isLoggedIn && isClient && ( <button onClick={handleReserveClick}><a>Reserve</a></button>  )}
+                    
                 </div>
             )}
 
