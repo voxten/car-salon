@@ -76,14 +76,6 @@ export default function AdminReservations() {
     }
   };
 
-  if (status === "loading") {
-    return <div className={styles.loading}>Loading...</div>;
-  }
-
-  if (status !== "authenticated" || session.user.role !== "admin") {
-    return <div className={styles.message}>Access denied.</div>;
-  }
-
   if (loading) {
     return <div className={styles.loading}>Loading reservations...</div>;
   }

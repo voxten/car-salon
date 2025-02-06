@@ -6,16 +6,14 @@ export async function middleware(req) {
 
   // Redirect unauthenticated users to login page
   if (!token) {
-    return NextResponse.redirect(new URL("/login-form", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   const { pathname } = req.nextUrl;
 
   // Restrict access to /admin, /dashboard, and /rent-a-car/create-new to admin only
   if (
-      (pathname.startsWith("/admin") ||
-          pathname === "/dashboard" ||
-          pathname === "/rent-a-car/create-new") &&
+      (pathname.startsWith("/admin") || pathname === "/rent-a-car/create-new" || pathname === "/manage-reservations") &&
       (!token.role || token.role !== "admin")
   ) {
     return NextResponse.redirect(new URL("/", req.url));
@@ -31,5 +29,5 @@ export async function middleware(req) {
 
 // Define routes where the middleware should apply
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard", "/rent-a-car/create-new", "/my-reservations"],
+  matcher: ["/admin/:path*", "/dashboard", "/rent-a-car/create-new", "/my-reservations", "/manage-reservations"],
 };

@@ -55,7 +55,7 @@ export default function LoginForm() {
 
   return (
     <div className={styles.loginContainer}>
-      <h1 className={styles.loginHeading}>Login to Car Rental</h1>
+      <h1 className={styles.loginHeading}>Login to Car Salon</h1>
 
       {error && (
         <div className={styles.loginError}>
