@@ -7,7 +7,11 @@ import { useSession, signOut } from 'next-auth/react';
 
 import logoImg from '@/assets/icons/car.png';
 import login from '@/assets/icons/login.png';
+import logout from '@/assets/icons/logout.png';
 import loginActive from '@/assets/icons/login-active.png';
+import reservation from '@/assets/icons/reservation.png';
+import reservationActive from '@/assets/icons/reservation-active.png';
+
 
 function NavLink({ href, children }) {
     const path = usePathname();
@@ -51,29 +55,40 @@ export default function MainHeader() {
                     <li>
                         <NavLink href="/contact-us">Contact Us</NavLink>
                     </li>
-                    {isLoggedIn && isClient && (
-                        <li>
-                            <NavLink href="/my-reservations">My Reservations</NavLink>
-                        </li>
-                    )}
-                    {isLoggedIn && isAdmin && (
-                        <li>
-                            <NavLink href="/manage-reservations">Manage Reservations</NavLink>
-                        </li>
-                    )}
                     <div className={styles.login}>
                         {isLoggedIn ? (
-                            <li>
                             <div className={styles.userInfo}>  
                                 <span>You are logged as </span><span className={styles.username}>{session.user.name} </span>
+                                {isLoggedIn && isClient && (
+                                    <NavLink href="/my-reservations">
+                                        <Image
+                                            src={path === "/my-reservations" ? reservationActive : reservation}
+                                            alt="Reservations"
+                                            priority
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </NavLink>
+                                )}
+                                {isLoggedIn && isAdmin && (
+                                    <li>
+                                        <NavLink href="/manage-reservations">Manage Reservations</NavLink>
+                                    </li>
+                                )}
                                 <button
                                     onClick={() => signOut({ callbackUrl: "/" })}
                                     className={styles.logoutButton}
                                 >
-                                    Log Out
+                                    <Image
+                                        src={logout}
+                                        alt="Logout icon"
+                                        priority
+                                        width={50}
+                                        height={50}
+                                    />
                                 </button>
                             </div>
-                            </li>
+
                         ) : (
                             <NavLink href="/login-form">
                                 <Image
@@ -85,7 +100,7 @@ export default function MainHeader() {
                                 />
                             </NavLink>
                         )}
-                        
+
                     </div>
                 </ul>
             </nav>
